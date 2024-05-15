@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:terreneitor/vistas/conexion/conexionVista.dart';
+import 'package:terreneitor/vistas/controles/controlesVista.dart';
+
 
 /// Flutter code sample for [NavigationBar].
 
@@ -40,31 +43,34 @@ class _NavigationExampleState extends State<NavigationExample> {
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            
             icon: Icon(Icons.signal_wifi_4_bar_sharp),
             label: 'Conexión',
+            selectedIcon: IconButton(onPressed: null, icon: Icon(Icons.signal_wifi_4_bar_sharp,size:35, color: Color(0xff93479b))),
           ),
           NavigationDestination(
             icon: Icon(Icons.games),
             label: 'Control',
+            selectedIcon: IconButton(onPressed: null, icon: Icon(Icons.games,size:35, color: Color(0xff93479b))),
           ),
           NavigationDestination(
             icon: Icon(
               Icons.info,
             ),
+            selectedIcon: IconButton(onPressed: null, icon: Icon(Icons.info,size:35, color: Color(0xff93479b))),
             label: 'Ayuda',
           ),
         ],
       ),
       body: <Widget>[
         /// Home page
-        Center(child: Text('CONEXIONES', style: theme.textTheme.headlineLarge)),
+        conexionVista(),
+        controlesVista(),
+        
 
         /// Notifications page
-       Center(child: Text('CONTROLES', style: theme.textTheme.headlineLarge)),
 
         /// Messages page
-          Center(child: Text('AYUDA', style: theme.textTheme.headlineLarge)),
+        Center(child: Text('AYUDA', style: theme.textTheme.headlineLarge)),
       ][currentPageIndex],
     );
   }

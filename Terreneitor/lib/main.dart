@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:terreneitor/vistas/conexion/conexionVista.dart';
 import 'package:terreneitor/vistas/controles/controlesVista.dart';
+import 'package:terreneitor/vistas/providers/config_provider.dart';
 
 
 /// Flutter code sample for [NavigationBar].
 
-void main() => runApp(const NavigationBarApp());
+void main() {
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => ConfigProvider()),
+    ], child: const NavigationBarApp()),
+  );
+}
 
 class NavigationBarApp extends StatelessWidget {
   const NavigationBarApp({super.key});

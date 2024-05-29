@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_joystick: ^0.0.4
+  http: ^1.2.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

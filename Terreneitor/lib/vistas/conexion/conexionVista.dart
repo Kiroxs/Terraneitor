@@ -22,7 +22,7 @@ class _conexionVistaState extends State<conexionVista> {
     setState(() {
       request = true;
     });
-    String url = 'http://$ipAddress/';
+    String url = 'http://$ipAddress/command/?State=F';
     try {
       final response = await http.post(Uri.parse(url)).timeout(
             const Duration(seconds: 15),
@@ -36,7 +36,7 @@ class _conexionVistaState extends State<conexionVista> {
         print('Solicitud enviada con éxito.');
       } else {
         // Hubo un error en la solicitud
-        mostrarMensaje(context, "Error al enviar la solicitud.");
+        mostrarMensaje(context, "${response.statusCode}");
         
       }
     } catch (e) {

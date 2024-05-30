@@ -99,29 +99,29 @@ class _controlesVistaState extends State<controlesVista> {
 
     // Verificar si el joystick está cerca del centro
     if (x.abs() < 0.1 && y.abs() < 0.1) {
-      return "http://$ipAddress/?State=S";
+      return "http://$ipAddress/command/?State=S";
     }
 
     // Determinar la dirección basada en el ángulo
     if (angle > -pi / 8 && angle < pi / 8) {
-      return "http://$ipAddress/?State=R";
+      return "http://$ipAddress/command/?State=R";
     } else if (angle >= pi / 8 && angle <= 3 * pi / 8) {
-      return "http://$ipAddress/?State=J";
+      return "http://$ipAddress/command/?State=J";
     } else if (angle > 3 * pi / 8 && angle < 5 * pi / 8) {
-      return "http://$ipAddress/?State=B";
+      return "http://$ipAddress/command/?State=B";
     } else if (angle >= 5 * pi / 8 && angle <= 7 * pi / 8) {
-      return "http://$ipAddress/?State=H";
+      return "http://$ipAddress/command/?State=H";
     } else if ((angle > 7 * pi / 8 && angle <= pi) ||
         (angle < -7 * pi / 8 && angle >= -pi)) {
-      return "http://$ipAddress/?State=L";
+      return "http://$ipAddress/command/?State=L";
     } else if (angle < -5 * pi / 8 && angle > -7 * pi / 8) {
-      return "http://$ipAddress/?State=G";
+      return "http://$ipAddress/command/?State=G";
     } else if (angle <= -3 * pi / 8 && angle >= -5 * pi / 8) {
-      return "http://$ipAddress/?State=F";
+      return "http://$ipAddress/command/?State=F";
     } else if (angle > -3 * pi / 8 && angle < -pi / 8) {
-      return "http://$ipAddress/?State=I";
+      return "http://$ipAddress/command/?State=I";
     }
-    return "http://$ipAddress/?State=S"; // Por defecto si no cae en ningún rango específico
+    return "http://$ipAddress/command/?State=S"; // Por defecto si no cae en ningún rango específico
   }
 
   @override
@@ -171,7 +171,7 @@ class _controlesVistaState extends State<controlesVista> {
                                 _currentSliderValue = value
                                     .roundToDouble(); // Almacena valores como enteros redondeados.
                                 sendCommand(
-                                    "http://$ipAddress/?State=$_currentSliderValue");
+                                    "http://$ipAddress/command/?State=$_currentSliderValue");
                               });
                             },
                           ),

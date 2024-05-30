@@ -22,13 +22,15 @@ class _conexionVistaState extends State<conexionVista> {
     setState(() {
       request = true;
     });
-    String url = 'http://$ipAddress/command/?State=F';
+    
+    String url = 'http://${ipAddress}/';
     try {
-      final response = await http.post(Uri.parse(url)).timeout(
+      Provider.of<ConfigProvider>(context, listen: false).setIp(ipAddress);
+      final response = await http.get(Uri.parse(url)).timeout(
             const Duration(seconds: 15),
           );
-     
-      Provider.of<ConfigProvider>(context, listen: false).setIp(ipAddress);
+
+      
       if (response.statusCode == 200) {
         // La solicitud fue exitosa
         

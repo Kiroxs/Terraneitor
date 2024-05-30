@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:terreneitor/vistas/providers/config_provider.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 class controlesVista extends StatefulWidget {
   const controlesVista({super.key});
 
@@ -21,7 +21,7 @@ class _controlesVistaState extends State<controlesVista> {
   @override
   void sendCommand(String url) async {
     final response = await http
-        .post(
+        .get(
           Uri.parse("${url}"),
         )
         .timeout(
@@ -45,7 +45,7 @@ class _controlesVistaState extends State<controlesVista> {
     String ipAddress =
         Provider.of<ConfigProvider>(context, listen: true).getIp();
 
-    final url = 'http://${ipAddress}/camera';
+    final url = 'http://${ipAddress}/stream';
     try {
       final response = await http.get(Uri.parse(url)).timeout(
             const Duration(seconds: 15),
@@ -123,15 +123,26 @@ class _controlesVistaState extends State<controlesVista> {
     }
     return "http://$ipAddress/command/?State=S"; // Por defecto si no cae en ningún rango específico
   }
+  WebViewController initializeWebViewController(BuildContext context) {
+  final String cameraUrl = Provider.of<ConfigProvider>(context, listen: true).getIp();
 
+  final WebViewController controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.disabled)
+    ..loadRequest(Uri.parse('http://$cameraUrl/camera'));
+
+  return controller;
+}
+  
   @override
   Widget build(BuildContext context) {
+     
     return SafeArea(
       child: Scaffold(
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+             
               if (!Provider.of<ConfigProvider>(context, listen: true)
                   .getIp()
                   .isNotEmpty)
@@ -144,13 +155,8 @@ class _controlesVistaState extends State<controlesVista> {
                   .isNotEmpty)
                 Column(
                   children: [
-                    _imageUrl.isNotEmpty ? Image.network(_imageUrl) : Text(''),
-                    ElevatedButton(
-                      onPressed: _fetchImage,
-                      child: _isLoading
-                          ? CircularProgressIndicator()
-                          : Text('Fetch Image'),
-                    ),
+                    Expanded( flex: 1, child: WebViewWidget(controller: initializeWebViewController(context))),
+                    
                     Row(
                       children: [
                         Expanded(

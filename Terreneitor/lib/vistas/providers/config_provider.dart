@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ConfigProvider extends ChangeNotifier {
-  String ip = '244.178.44.111';
+  String ip = '';
 
   void setIp(String newIp) {
     ip = newIp;

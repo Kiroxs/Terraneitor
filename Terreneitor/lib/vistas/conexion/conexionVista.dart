@@ -27,7 +27,7 @@ class _conexionVistaState extends State<conexionVista> {
       final response = await http.post(Uri.parse(url)).timeout(
             const Duration(seconds: 15),
           );
-      print(response.body);
+     
       Provider.of<ConfigProvider>(context, listen: false).setIp(ipAddress);
       if (response.statusCode == 200) {
         // La solicitud fue exitosa

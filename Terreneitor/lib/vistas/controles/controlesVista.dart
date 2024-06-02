@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_joystick/flutter_joystick.dart';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:terreneitor/vistas/controles/imagen.dart';
+import 'dart:io';
 import 'package:terreneitor/vistas/providers/config_provider.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
 class controlesVista extends StatefulWidget {
   const controlesVista({super.key});
 
@@ -123,26 +129,25 @@ class _controlesVistaState extends State<controlesVista> {
     }
     return "http://$ipAddress/command/?State=S"; // Por defecto si no cae en ningún rango específico
   }
-  WebViewController initializeWebViewController(BuildContext context) {
-  final String cameraUrl = Provider.of<ConfigProvider>(context, listen: true).getIp();
 
-  final WebViewController controller = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.disabled)
-    ..loadRequest(Uri.parse('http://$cameraUrl/camera'));
+  final controller = WebViewController();
 
-  return controller;
-}
-  
   @override
   Widget build(BuildContext context) {
-     
+    controller
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(
+          "http://${Provider.of<ConfigProvider>(context, listen: true).getIp()}/camera"));
     return SafeArea(
       child: Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-             
+              if (Provider.of<ConfigProvider>(context, listen: true)
+                  .getIp()
+                  .isNotEmpty)
+              Expanded(child: WebViewWidget(controller: controller)),
               if (!Provider.of<ConfigProvider>(context, listen: true)
                   .getIp()
                   .isNotEmpty)
@@ -155,7 +160,6 @@ class _controlesVistaState extends State<controlesVista> {
                   .isNotEmpty)
                 Column(
                   children: [
-                    Expanded( flex: 1, child: WebViewWidget(controller: initializeWebViewController(context))),
                     
                     Row(
                       children: [

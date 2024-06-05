@@ -12,7 +12,7 @@ class conexionVista extends StatefulWidget {
   
 class _conexionVistaState extends State<conexionVista> {
   TextEditingController ipController = TextEditingController();
-  String ipAddress = '';
+  String ipAddress = '192.168.4.1';
   bool request = false;
   void mostrarMensaje(BuildContext context, String mensaje) {
     ScaffoldMessenger.of(context)
@@ -24,8 +24,9 @@ class _conexionVistaState extends State<conexionVista> {
     });
     
     String url = 'http://${ipAddress}/';
+    print(url);
     try {
-      Provider.of<ConfigProvider>(context, listen: false).setIp(ipAddress);
+      
       final response = await http.get(Uri.parse(url)).timeout(
             const Duration(seconds: 15),
           );
@@ -33,8 +34,8 @@ class _conexionVistaState extends State<conexionVista> {
       
       if (response.statusCode == 200) {
         // La solicitud fue exitosa
-        
-        mostrarMensaje(context, "Conexion exitosa");
+        Provider.of<ConfigProvider>(context, listen: false).setIp(ipAddress);
+        mostrarMensaje(context, "Conexión exitosa");
         print('Solicitud enviada con éxito.');
       } else {
         // Hubo un error en la solicitud
@@ -60,23 +61,7 @@ class _conexionVistaState extends State<conexionVista> {
             children: [
               
               SizedBox(height: 26),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TextField(
-                  controller: ipController,
-                  onChanged: (value) {
-                    ipAddress = value;
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xff93479b),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    hintText: 'IP',
-                  ),
-                ),
-              ),
+              
               ElevatedButton(
                 onPressed: () {
                   conectar();

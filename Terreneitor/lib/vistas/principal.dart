@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:terreneitor/vistas/ayuda/ayudaprincipal.dart';
 import 'package:terreneitor/vistas/conexion/conexionVista.dart';
 import 'package:terreneitor/vistas/controles/controlesVista.dart';
 
@@ -10,7 +11,7 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
-  int currentPageIndex = 0;
+  int currentPageIndex = 2;
   
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class _PrincipalState extends State<Principal> {
           /// Notifications page
       
           /// Messages page
-          Center(child: Text('AYUDA', style: theme.textTheme.headlineLarge)),
+          ayudaPrincipal()
         ][currentPageIndex],
       ),
     );

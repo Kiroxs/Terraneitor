@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:terreneitor/vistas/ayuda/comoconectarse.dart';
+import 'package:terreneitor/vistas/ayuda/comocontrolar.dart';
 
 class ayudaPrincipal extends StatefulWidget {
   const ayudaPrincipal({super.key});
@@ -49,21 +50,24 @@ class _ayudaPrincipalState extends State<ayudaPrincipal> {
                           });
                         },
                         child: Text("Movimientos")),
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            currentPageIndex = 2;
-                          });
-                        },
-                        child: Text("Conexión")),
+                    
                   ],
                 ),
               ],
             ),
             if (currentPageIndex == 0)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal:15),
-                child: ComoConectar(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal:15),
+                  child: ComoConectar(),
+                ),
+              ),
+            if(currentPageIndex == 1)
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal:15),
+                  child: ComoControlar(),
+                 ),
               ),
           ],
         ),

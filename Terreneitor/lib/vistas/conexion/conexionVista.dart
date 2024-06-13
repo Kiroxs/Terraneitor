@@ -87,7 +87,7 @@ class _conexionVistaState extends State<conexionVista> {
                 ),
               ),
 
-             
+              
               SizedBox(height: 26),
               Text(
                 "CONECTAR",

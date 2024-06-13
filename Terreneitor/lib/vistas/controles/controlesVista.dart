@@ -23,7 +23,7 @@ class _controlesVistaState extends State<controlesVista> {
   double _currentSliderValue = 5;
   String _imageUrl = '';
   bool _isLoading = false;
-
+  
   @override
   void sendCommand(String url) async {
     final response = await http
@@ -101,7 +101,7 @@ class _controlesVistaState extends State<controlesVista> {
   String getDirection(double x, double y) {
     double angle = atan2(y, x); // Ángulo en radianes
     String ipAddress =
-        Provider.of<ConfigProvider>(context, listen: true).getIp();
+        Provider.of<ConfigProvider>(context, listen: false).getIp();
 
     // Verificar si el joystick está cerca del centro
     if (x.abs() < 0.1 && y.abs() < 0.1) {
@@ -147,7 +147,7 @@ class _controlesVistaState extends State<controlesVista> {
               if (Provider.of<ConfigProvider>(context, listen: true)
                   .getIp()
                   .isNotEmpty)
-              Expanded(child: WebViewWidget(controller: controller)),
+                Expanded(child: WebViewWidget(controller: controller)),
               if (!Provider.of<ConfigProvider>(context, listen: true)
                   .getIp()
                   .isNotEmpty)
@@ -160,7 +160,6 @@ class _controlesVistaState extends State<controlesVista> {
                   .isNotEmpty)
                 Column(
                   children: [
-                    
                     Row(
                       children: [
                         Expanded(
@@ -191,7 +190,13 @@ class _controlesVistaState extends State<controlesVista> {
                             shape: CircleBorder(),
                             padding: EdgeInsets.all(10),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            String ipAddress = Provider.of<ConfigProvider>(
+                                    context,
+                                    listen: true)
+                                .getIp();
+                            sendCommand("http://$ipAddress/command/?State=Z");
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -217,6 +222,7 @@ class _controlesVistaState extends State<controlesVista> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Joystick(
+                          period : Duration(milliseconds: 1000),
                           base: Container(
                             width: 200,
                             height: 200,
@@ -227,9 +233,12 @@ class _controlesVistaState extends State<controlesVista> {
                           ),
                           mode: JoystickMode.all,
                           listener: (details) {
-                            setState(() {
-                              sendCommand(getDirection(details.x, details.y));
-                            });
+                            
+                            
+                              setState(() {
+                                sendCommand(getDirection(details.x, details.y));
+                              });
+                            
                           }),
                     ),
                   ],
